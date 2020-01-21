@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-auth.js"></script>
+
+    <style>
+      /* Full-width inputs */
+#email-s,#password-s {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+#email-l,#password-l{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+
+/* Set a style for all buttons */
+#signup-s{
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 20px;
+
+}
+#login-l {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#login{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+#sign{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+#logged-in{
+  display:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+a{
+  color: green;
+}
+
+
+
+    </style>
+</head>
+    
+    
+
+   
+    <body>
+
+      
+      
+        
+      
+        <div id="sign">
+          <h1>Signup</h1>
+          <b>Email</b>
+          <input type="email" id="email-s" placeholder="Enter email">
+      
+         <b>Password</b>
+          <input type="password" id="password-s" placeholder="Enter Password" >
+      
+          <button id="signup-s">Signup</button>
+          <a href="#" id="loginref" >Login-in instead</a>
+          
+        </div>
+        <div id="login">
+          <h1>Login</h1>
+          <b>Email</b>
+          <input type="text" id="email-l" placeholder="Enter email">
+      
+          <b>Password</b>
+          <input type="password" id="password-l" placeholder="Enter Password">
+      
+          <button id="login-l">Login</button>
+          <a href="#" id="signupref">Sign-in Instead</a>
+          
+        </div>
+        <div id="logged-in">
+          <h1>hello you are succesffuly logged in</h1>
+          <p id="message">Live your life!</p>
+      
+          <button id="logout">Logout</button>
+          
+          
+        </div>
+<script>
+// Your web app's Firebase configuration
+var firebaseConfig = {
+apiKey: "AIzaSyByUSwbKDHPNWXezF6ShSF3UHh2W5b56jQ",
+authDomain: "demoproject-b6ec5.firebaseapp.com",
+databaseURL: "https://demoproject-b6ec5.firebaseio.com",
+projectId: "demoproject-b6ec5",
+storageBucket: "demoproject-b6ec5.appspot.com",
+messagingSenderId: "520188156437",
+appId: "1:520188156437:web:f33c736971f6a79c778c1c",
+measurementId: "G-NYZ47Q62F8"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const auth=firebase.auth();
+	
+        
+        
+        
+          $(document).ready(function(){
+            $("#loginref").click(function(){
+              $("#login").show()
+              $('#sign').hide();
+            })
+            $("#signupref").click(function(){
+              $("#sign").show()
+              $('#login').hide();
+            })
+          })
+     
+      
+      
+
+
+  $(document).ready(function(){
+    $('#signup-s').click(function(){
+      var email=$('#email-s').val()
+      var password=$('#password-s').val()
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  alert(errorMessage);
+  // ...
+});
+    })
+    $('#login-l').click(function(){
+      var email=$('#email-l').val()
+      var password=$('#password-l').val()
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+  alert(errorMessage);
+});
+    })
+firebase.auth().onAuthStateChanged(function(user){
+  if(user){
+    $('#sign').hide()
+    $('#login').hide()
+    $('#logged-in').show();
+  }
+})
+$('#logout').click(function(){
+  firebase.auth().signOut().then(function() {
+  // Sign-out successful.
+}).catch(function(error) {
+  // An error happened.
+});
+})
+  })
+</script>
+
+  </body>
+  </html>
